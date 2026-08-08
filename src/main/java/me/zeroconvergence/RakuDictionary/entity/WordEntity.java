@@ -39,14 +39,6 @@ public class WordEntity {
     public WordEntity() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getKanji() {
         return kanji;
     }
