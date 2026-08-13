@@ -26,7 +26,7 @@ public class WordEntity {
             name = "word_categories",
             joinColumns = @JoinColumn(name = "word_id")
     )
-    @Column(name = "category")
+    @Column(name = "categories")
     private Set<WordCategory> categories = new HashSet<>();
 
     @Column(name = "meaning")

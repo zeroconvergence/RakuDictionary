@@ -24,6 +24,15 @@ public class WordSpecification {
         );
     }
 
+    public static Specification<WordEntity> hasMeaning(String meaning) {
+        return ((root, query, criteriaBuilder) ->
+                criteriaBuilder.like(
+                        root.get("meaning"),
+                        "%" + meaning + "%"
+                )
+        );
+    }
+
     public static Specification<WordEntity> hasJlptLevel(JLPTLevel level) {
         return ((root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(

@@ -1,7 +1,9 @@
 package me.zeroconvergence.RakuDictionary;
 
+import me.zeroconvergence.RakuDictionary.entity.VerbEntity;
 import me.zeroconvergence.RakuDictionary.entity.WordEntity;
-import me.zeroconvergence.RakuDictionary.repository.WordRepository;
+
+import me.zeroconvergence.RakuDictionary.service.VerbService;
 import me.zeroconvergence.RakuDictionary.service.WordService;
 import me.zeroconvergence.RakuDictionary.types.JLPTLevel;
 import me.zeroconvergence.RakuDictionary.types.WordCategory;
@@ -15,16 +17,17 @@ import java.util.List;
 @RequestMapping("/api/")
 public class RakuDictionaryController {
     private final WordService wordService;
-    private final WordRepository wordRepository;
-
-    public RakuDictionaryController(WordService wordService, WordRepository wordRepository) {
-        this.wordService = wordService;
-        this.wordRepository = wordRepository;
-    }
+    private final VerbService verbService;
 
     @GetMapping("/words/categories")
     public List<WordCategory> listCategories() {
         return wordService.listCategories();
+    }
+
+    //-------------------------------------- WORDS --------------------------------------//
+    public RakuDictionaryController(WordService wordService, VerbService verbService) {
+        this.wordService = wordService;
+        this.verbService = verbService;
     }
 
     @GetMapping("/words")
@@ -58,5 +61,31 @@ public class RakuDictionaryController {
                                    @RequestParam(required = false) WordCategory category,
                                    @RequestParam(required = false) JLPTLevel level) {
         return wordService.findWords(kanji, reading, category, level);
+    }
+
+    //-------------------------------------- VERBS --------------------------------------//
+    @PostMapping("/verbs")
+    public ResponseEntity<VerbEntity> addVerb(@RequestBody VerbEntity verb) throws IllegalArgumentException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(verbService.addVerb(verb));
+    }
+
+    @GetMapping("/verbs")
+    public List<VerbEntity> listVerbs() {
+        return verbService.listVerbs();
+    }
+
+    @GetMapping("/verbs/{id}")
+    public List<VerbEntity> listVerb(@PathVariable("id") Integer id) {
+        return verbService.listVerb(id);
+    }
+
+    @PatchMapping("/verbs/{id}")
+    public VerbEntity updateVerb(@PathVariable("id") Integer id, @RequestBody VerbEntity verb) {
+        return verbService.updateVerb(id, verb);
+    }
+
+    @DeleteMapping("/verbs/{id}")
+    public void removeVerb(@PathVariable("id") Integer id) {
+        verbService.removeVerb(id);
     }
 }

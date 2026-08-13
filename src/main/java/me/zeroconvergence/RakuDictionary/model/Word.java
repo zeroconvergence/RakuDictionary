@@ -6,7 +6,7 @@ import me.zeroconvergence.RakuDictionary.types.WordCategory;
 public record Word(
         Integer id,
         String kanji,
-        WordCategory category,
+        WordCategory categories,
         String reading,
         String meaning,
         JLPTLevel jlptLevel
