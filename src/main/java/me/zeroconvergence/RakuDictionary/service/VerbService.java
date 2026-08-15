@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class VerbService {
@@ -111,5 +112,13 @@ public class VerbService {
         }
 
         return verbRepository.findAll(verbSpec);
+    }
+
+    public VerbEntity randomVerb() {
+        List<VerbEntity> verbs = verbRepository.findAll();
+        Random random = new Random();
+        int randomIndex = random.nextInt(verbs.size());
+
+        return verbs.get(randomIndex);
     }
 }

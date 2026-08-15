@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -66,6 +67,11 @@ public class RakuDictionaryController {
         return wordService.findWords(kanji, reading, meaning, category, level);
     }
 
+    @GetMapping("/words/random")
+    public WordEntity randomWord() {
+        return wordService.randomWord();
+    }
+
     //-------------------------------------- VERBS --------------------------------------//
     @PostMapping("/verbs")
     public ResponseEntity<VerbEntity> addVerb(@RequestBody VerbEntity verb) throws IllegalArgumentException {
@@ -101,5 +107,10 @@ public class RakuDictionaryController {
                                    @RequestParam(required = false) VerbTransitivity verbTransitivity,
                                    @RequestParam(required = false) JLPTLevel level) {
         return verbService.findVerbs(dictionaryForm, reading, meaning, categories, verbGroup, verbTransitivity, level);
+    }
+
+    @GetMapping("/verbs/random")
+    public VerbEntity randomVerb() {
+        return verbService.randomVerb();
     }
 }

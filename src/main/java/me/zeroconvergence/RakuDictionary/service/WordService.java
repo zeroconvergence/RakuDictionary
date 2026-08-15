@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class WordService {
@@ -111,5 +113,13 @@ public class WordService {
         }
 
         return wordRepository.findAll(wordSpec);
+    }
+
+    public WordEntity randomWord() {
+        List<WordEntity> words = wordRepository.findAll();
+        Random random = new Random();
+        int randomIndex = random.nextInt(words.size());
+
+        return words.get(randomIndex);
     }
 }
