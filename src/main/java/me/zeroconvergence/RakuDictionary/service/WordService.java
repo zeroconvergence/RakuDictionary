@@ -85,6 +85,7 @@ public class WordService {
 
     public List<WordEntity> findWords(String kanji,
                                    String reading,
+                                   String meaning,
                                    WordCategory category,
                                    JLPTLevel level) {
         Specification<WordEntity> wordSpec = ((root, query, criteriaBuilder) -> null);
@@ -95,6 +96,10 @@ public class WordService {
 
         if(reading != null) {
             wordSpec = wordSpec.and(WordSpecification.hasReading(reading));
+        }
+
+        if(meaning != null) {
+            wordSpec = wordSpec.and(WordSpecification.hasMeaning(meaning));
         }
 
         if(category != null) {

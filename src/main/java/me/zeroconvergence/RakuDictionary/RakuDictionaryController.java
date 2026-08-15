@@ -6,6 +6,8 @@ import me.zeroconvergence.RakuDictionary.entity.WordEntity;
 import me.zeroconvergence.RakuDictionary.service.VerbService;
 import me.zeroconvergence.RakuDictionary.service.WordService;
 import me.zeroconvergence.RakuDictionary.types.JLPTLevel;
+import me.zeroconvergence.RakuDictionary.types.VerbGroup;
+import me.zeroconvergence.RakuDictionary.types.VerbTransitivity;
 import me.zeroconvergence.RakuDictionary.types.WordCategory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,9 +60,10 @@ public class RakuDictionaryController {
     @GetMapping("/words/filter")
     public List<WordEntity> filter(@RequestParam(required = false) String kanji,
                                    @RequestParam(required = false) String reading,
+                                   @RequestParam(required = false) String meaning,
                                    @RequestParam(required = false) WordCategory category,
                                    @RequestParam(required = false) JLPTLevel level) {
-        return wordService.findWords(kanji, reading, category, level);
+        return wordService.findWords(kanji, reading, meaning, category, level);
     }
 
     //-------------------------------------- VERBS --------------------------------------//
@@ -87,5 +90,16 @@ public class RakuDictionaryController {
     @DeleteMapping("/verbs/{id}")
     public void removeVerb(@PathVariable("id") Integer id) {
         verbService.removeVerb(id);
+    }
+
+    @GetMapping("/verbs/filter")
+    public List<VerbEntity> filter(@RequestParam(required = false) String dictionaryForm,
+                                   @RequestParam(required = false) String reading,
+                                   @RequestParam(required = false) String meaning,
+                                   @RequestParam(required = false) WordCategory categories,
+                                   @RequestParam(required = false) VerbGroup verbGroup,
+                                   @RequestParam(required = false) VerbTransitivity verbTransitivity,
+                                   @RequestParam(required = false) JLPTLevel level) {
+        return verbService.findVerbs(dictionaryForm, reading, meaning, categories, verbGroup, verbTransitivity, level);
     }
 }

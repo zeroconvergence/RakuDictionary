@@ -2,8 +2,17 @@ package me.zeroconvergence.RakuDictionary.service;
 
 import me.zeroconvergence.RakuDictionary.entity.VerbEntity;
 
+import me.zeroconvergence.RakuDictionary.entity.WordEntity;
 import me.zeroconvergence.RakuDictionary.repository.VerbRepository;
+import me.zeroconvergence.RakuDictionary.specification.VerbSpecification;
+import me.zeroconvergence.RakuDictionary.specification.WordSpecification;
+import me.zeroconvergence.RakuDictionary.types.JLPTLevel;
+import me.zeroconvergence.RakuDictionary.types.VerbGroup;
+import me.zeroconvergence.RakuDictionary.types.VerbTransitivity;
+import me.zeroconvergence.RakuDictionary.types.WordCategory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -62,5 +71,45 @@ public class VerbService {
 
     public void removeVerb(Integer id) {
         verbRepository.deleteById(id);
+    }
+
+    public List<VerbEntity> findVerbs(String dictionaryForm,
+                                      String reading,
+                                      String meaning,
+                                      WordCategory categories,
+                                      VerbGroup verbGroup,
+                                      VerbTransitivity verbTransitivity,
+                                      JLPTLevel level) {
+        Specification<VerbEntity> verbSpec = ((root, query, criteriaBuilder) -> null);
+
+        if(dictionaryForm != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasDictionaryForm(dictionaryForm));
+        }
+
+        if(reading != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasReading(reading));
+        }
+
+        if(meaning != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasMeaning(meaning));
+        }
+
+        if(categories != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasCategory(categories));
+        }
+
+        if(verbGroup != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasVerbGroup(verbGroup));
+        }
+
+        if(verbTransitivity != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasVerbTransitivity(verbTransitivity));
+        }
+
+        if(level != null) {
+            verbSpec = verbSpec.and(VerbSpecification.hasJlptLevel(level));
+        }
+
+        return verbRepository.findAll(verbSpec);
     }
 }
