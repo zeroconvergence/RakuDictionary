@@ -68,7 +68,7 @@ public class RakuDictionaryController {
     }
 
     @GetMapping("/words/random")
-    public WordEntity randomWord() {
+    public WordEntity randomWord(@ModelAttribute("word.kanji") WordEntity word) {
         return wordService.randomWord();
     }
 
